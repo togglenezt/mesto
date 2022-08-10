@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pages/index.css">
+    <title lang="en">Mesto</title>
+</head>
+<body class="page">
+    <header class="header">
+        <a href="#" class="header__logo"></a>
+    </header>
+    <main class="content">
+        <section class="profile" aria-label="Профиль">
+            <div class="profile__container">
+                <img src="images/profile__avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
+                <div class="profile__text">
+                    <div class="profile__edit-container">
+                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <button class="profile__edit-button"></button>
+                    </div>
+                    <p class="profile__subtitle">Исследователь океана</p>
+                </div>
+            </div>
+            <button class="profile__add-button"></button>
+        </section>
+        <section class="gallery" aria-label="Фото галлерея">
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Карачаевск</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article>
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Гора Эльбрус</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article>  
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Домбай</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article> 
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Гора Эльбрус</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article>   
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Домбай</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article>    
+            <article class="gallery__item">
+                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="gallery__image">
+                <div class="gallery__text">
+                    <p class="gallery__title">Карачаево-Чеee</p>
+                    <button class="gallery__like"></button>
+                </div>
+            </article>       
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">© 2020 Mesto Russia</p>
+    </footer>
+    <div class="pop-up">
+        <form action="#" class="pop-up__container">
+            <p class="pop-up__title">Редактировать профиль</p>
+            <input type="text" placeholder="Имя" class="pop-up__field nameInput">
+            <input type="text" placeholder="О себе" class="pop-up__field jobInput">
+            <button class="pop-up__submit-button">Сохранить</button>
+            <button class="pop-up__close-button"></button>
+        </form>
+    </div>
+    <script src="blocks/pop-up/js/pop-up.js"></script>
+</body>
+</html>
