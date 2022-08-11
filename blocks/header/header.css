@@ -1,7 +1,6 @@
 .header {
     min-width: 320px;
     max-width: 880px;
-    min-height: 54px;
     display: flex;
     margin: 45px auto 0;
     box-sizing: border-box;

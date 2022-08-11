@@ -18,54 +18,54 @@
                 <div class="profile__text">
                     <div class="profile__edit-container">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button"></button>
+                        <button class="profile__edit-button" type="button"></button>
                     </div>
                     <p class="profile__subtitle">Исследователь океана</p>
                 </div>
             </div>
-            <button class="profile__add-button"></button>
+            <button class="profile__add-button" type="button"></button>
         </section>
         <section class="gallery" aria-label="Фото галлерея">
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Карачаевск</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Карачаевск</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article>
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Гора Эльбрус</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Гора Эльбрус</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article>  
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Домбай</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Домбай</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article> 
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Гора Эльбрус</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Гора Эльбрус</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article>   
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Домбай</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Домбай</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article>    
-            <article class="gallery__item">
-                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="gallery__image">
-                <div class="gallery__text">
-                    <p class="gallery__title">Карачаево-Чеee</p>
-                    <button class="gallery__like"></button>
+            <article class="place">
+                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="place__image">
+                <div class="place__text">
+                    <h2 class="place__title">Карачаево-Чеee</h2>
+                    <button class="place__like" type="button"></button>
                 </div>
             </article>       
         </section>
@@ -74,14 +74,16 @@
         <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
     <div class="pop-up">
-        <form action="#" class="pop-up__container">
-            <p class="pop-up__title">Редактировать профиль</p>
-            <input type="text" placeholder="Имя" class="pop-up__field nameInput">
-            <input type="text" placeholder="О себе" class="pop-up__field jobInput">
-            <button class="pop-up__submit-button">Сохранить</button>
-            <button class="pop-up__close-button"></button>
-        </form>
+        <div class="pop-up__container">
+            <form action="#" class="form" name="form-edit">
+                <h3 class="form__title">Редактировать профиль</h3>
+                <input type="text" placeholder="Имя" class="form__field form__field_type_name" name="profileName">
+                <input type="text" placeholder="О себе" class="form__field form__field_type_job" name="profileJob">
+                <button class="form__submit-button" type="submit">Сохранить</button>
+            </form>
+            <button class="pop-up__close-button" type="button"></button>
+        </div>
     </div>
-    <script src="blocks/pop-up/js/pop-up.js"></script>
+    <script src="js/pop-up.js"></script>
 </body>
 </html>

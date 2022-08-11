@@ -1,28 +1,27 @@
 // Находим форму в DOM
-let formElement = document.querySelector('.pop-up__container');
+let formElement = document.querySelector('.form');
 // Находим overlay pop-up в DOM
 let popUp = document.querySelector('.pop-up'); 
 // Находим кнопки открытия и закрытия pop-up в DOM
 let buttonEdit = document.querySelector('.profile__edit-button');
-let buttonEditClose = formElement.querySelector('.pop-up__close-button');
+let buttonEditClose = document.querySelector('.pop-up__close-button');
 // Находим кнопку сохранить в formElement
-let saveEdit = formElement.querySelector('.pop-up__submit-button');
+let saveEdit = formElement.querySelector('.form__submit-button');
 // Находим поля формы в DOM
-let nameInput = formElement.querySelector('.nameInput');
-let jobInput =  formElement.querySelector('.jobInput');
+let nameInput = formElement.querySelector('.form__field_type_name');
+let jobInput =  formElement.querySelector('.form__field_type_job');
 // Находим поля Профиля в DOM
 let profileName = document.querySelector('.profile__title');
 let profileJob = document.querySelector('.profile__subtitle');
 
 
-
-buttonEdit.addEventListener('click', popUpOpenClose);
-buttonEditClose.addEventListener('click', popUpOpenClose);
-saveEdit.addEventListener('click', formSubmitHandler);
-
-function popUpOpenClose() {
+function popUpOpen() {
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;    
+    popUp.classList.toggle('pop-up_opened');
+}
+
+function popUpClose() {
     popUp.classList.toggle('pop-up_opened');
 }
 
@@ -45,4 +44,7 @@ function formSubmitHandler (evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
+
 formElement.addEventListener('submit', formSubmitHandler);
+buttonEdit.addEventListener('click', popUpOpen);
+buttonEditClose.addEventListener('click', popUpClose);
