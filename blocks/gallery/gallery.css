@@ -1,5 +1,6 @@
 .gallery {
     max-width: 880px;
+    width: 100%;
     min-width: 320px;
     margin: 47.25px auto 0;
     display: grid;
