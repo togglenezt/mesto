@@ -25,50 +25,7 @@
             </div>
             <button class="profile__add-button" type="button"></button>
         </section>
-        <section class="gallery" aria-label="Фото галлерея">
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Карачаевск</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article>
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Гора Эльбрус</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article>  
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Домбай</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article> 
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1404681-unsplash-min.png" alt="Гора Эльбрус" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Гора Эльбрус</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article>   
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1556355-unsplash-min.png" alt="Гора Домбай" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Домбай</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article>    
-            <article class="place">
-                <img src="images/gallery/kirill-pershin-1088404-unsplash-min.jpg" alt="Разрушенный храм" class="place__image">
-                <div class="place__text">
-                    <h2 class="place__title">Карачаево-Чеee</h2>
-                    <button class="place__like" type="button"></button>
-                </div>
-            </article>       
-        </section>
+        <section class="gallery" aria-label="Фото галлерея"></section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">© 2020 Mesto Russia</p>
@@ -81,9 +38,29 @@
                 <input type="text" placeholder="О себе" class="form__field form__field_type_job" name="profileJob">
                 <button class="form__submit-button" type="submit">Сохранить</button>
             </form>
+            <form action="#" class="form form-add-place" name="form-edit">
+                <h3 class="form__title">Новое место</h3>
+                <input type="text" placeholder="Название" class="form__field form__field_type_place-name" name="placeName">
+                <input type="text" placeholder="Ссылка на картинку" class="form__field form__field_type_place-link" name="placeLink">
+                <button class="form__submit-button" type="submit">Создать</button>
+            </form>
+           <div class="pop-up__image-container">
+                <img src="#" alt="#" class="pop-up__image">
+                <p class="pop-up__text-image"></p>
+            </div>
             <button class="pop-up__close-button" type="button"></button>
         </div>
     </div>
+    <template id="place-template">
+        <article class="place">
+            <img src="#" alt="место" class="place__image">
+            <div class="place__text">
+                <h2 class="place__title"></h2>
+                <button class="place__like" type="button"></button>
+            </div>
+            <button type="button" class="place__delite-button"></button>
+        </article>
+    </template>
     <script src="js/pop-up.js"></script>
 </body>
 </html>
