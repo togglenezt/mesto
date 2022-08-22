@@ -124,7 +124,7 @@ function formAddPlace (evt){
     });
 
 }
-
+/* */
 
 addPlaceForm.addEventListener('submit', formAddPlace);
 
