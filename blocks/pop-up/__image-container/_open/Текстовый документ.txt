@@ -1,7 +1,0 @@
-.pop-up__image-container_open {
-    max-height: 75vh;
-    height: 540px;
-    width: 816px;
-    max-width: 75vw;
-    min-width: 282px;
-}

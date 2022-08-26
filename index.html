@@ -31,24 +31,28 @@
         <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
     <div class="pop-up">
-        <div class="pop-up__container">
-            <form action="#" class="form" name="form-edit">
+        <div class="pop-up__container pop-up__container-edit-profile">
+            <form action="#" class="form form-edit-profile" name="form-edit">
                 <h3 class="form__title">Редактировать профиль</h3>
                 <input type="text" placeholder="Имя" class="form__field form__field_type_name" name="profileName">
                 <input type="text" placeholder="О себе" class="form__field form__field_type_job" name="profileJob">
                 <button class="form__submit-button" type="submit">Сохранить</button>
             </form>
-            <form action="#" class="form form-add-place" name="form-edit">
+            <button class="pop-up__close-button" type="button"></button>
+        </div>
+        <div class="pop-up__container pop-up__add-place-container">
+            <form action="#" class="form form-add-place" name="form-add-place">
                 <h3 class="form__title">Новое место</h3>
                 <input type="text" placeholder="Название" class="form__field form__field_type_place-name" name="placeName">
-                <input type="text" placeholder="Ссылка на картинку" class="form__field form__field_type_place-link" name="placeLink">
+                <input type="url" placeholder="Ссылка на картинку" class="form__field form__field_type_place-link" name="placeLink">
                 <button class="form__submit-button" type="submit">Создать</button>
             </form>
-           <div class="pop-up__image-container">
-                <img src="#" alt="#" class="pop-up__image">
-                <p class="pop-up__text-image"></p>
-            </div>
-            <button class="pop-up__close-button" type="button"></button>
+            <button class="pop-up__close-button pop-up__add-pleace-close" type="button"></button>
+        </div>
+       <div class="pop-up__image-container">
+            <img src="#" alt="#" class="pop-up__image">
+            <p class="pop-up__text-image"></p>
+            <button class="pop-up__close-button pop-up__image-container-close-button" type="button"></button>
         </div>
     </div>
     <template id="place-template">
