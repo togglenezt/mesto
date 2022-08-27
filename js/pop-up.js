@@ -4,7 +4,7 @@ const formProfileElement = document.querySelector('.form-edit-profile');
 const popUp = document.querySelector('.pop-up'); 
 // Находим кнопки открытия и закрытия pop-up в DOM
 const buttonEdit = document.querySelector('.profile__edit-button');
-const popUpContainerEditProfile = document.querySelector('.pop-up__container-edit-profile');
+const popUpContainerEditProfile = document.querySelector('.pop-up-container-edit-profile');
 const buttonEditClose = popUpContainerEditProfile.querySelector('.form__close-button');
 // Находим поля формы в DOM
 const nameInput = formProfileElement.querySelector('.form__field_type_name');
@@ -12,14 +12,14 @@ const jobInput =  formProfileElement.querySelector('.form__field_type_job');
 // Находим поля Профиля в DOM
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
-const popUpPlaceContainer = document.querySelector('.pop-up__add-place-container');
+const popUpPlaceContainer = document.querySelector('.pop-up-add-place-container');
 const placeForm = document.querySelector('.form-add-place');
 const fieldPlaceName = placeForm.querySelector('.form__field_type_place-name');
 const fieldPlaceLink = placeForm.querySelector('.form__field_type_place-link');
 // Находим Кнопку добавления карточки 
 const buttonAddPlace = document.querySelector('.profile__add-button');
 const pleaceCloseButton = popUpPlaceContainer.querySelector('.form__close-button');
-const popUpImageOverlay = document.querySelector('.pop-up__overlay');
+const popUpImageOverlay = document.querySelector('.pop-up-overlay');
 const buttonCloseImageContainer = popUpImageOverlay.querySelector('.pop-up__close-button');
 // Находим шаблон 
 const placeTemplate = document.querySelector('#place-template').content;
