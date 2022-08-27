@@ -1,28 +1,26 @@
 // Находим форму в DOM
-const formElement = document.querySelector('.form-edit-profile');
+const formProfileElement = document.querySelector('.form-edit-profile');
 // Находим overlay pop-up в DOM
 const popUp = document.querySelector('.pop-up'); 
 // Находим кнопки открытия и закрытия pop-up в DOM
 const buttonEdit = document.querySelector('.profile__edit-button');
-const buttonEditClose = document.querySelector('.pop-up__close-button');
-// Находим кнопку сохранить в formElement
-const saveEdit = formElement.querySelector('.form__submit-button');
+const popUpContainerEditProfile = document.querySelector('.pop-up__container-edit-profile');
+const buttonEditClose = popUpContainerEditProfile.querySelector('.form__close-button');
 // Находим поля формы в DOM
-const nameInput = formElement.querySelector('.form__field_type_name');
-const jobInput =  formElement.querySelector('.form__field_type_job');
+const nameInput = formProfileElement.querySelector('.form__field_type_name');
+const jobInput =  formProfileElement.querySelector('.form__field_type_job');
 // Находим поля Профиля в DOM
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
-const popUpContainerEditProfile = document.querySelector('.pop-up__container-edit-profile');
-const editProfileContainer = popUp.querySelector('.pop-up__container-edit-profile');
-const addPlaceContainer = popUp.querySelector('.pop-up__add-place-container');
-const addPlaceForm = document.querySelector('.form-add-place');
-const fieldPlaceName = addPlaceForm.querySelector('.form__field_type_place-name');
-const fieldPlaceLink = addPlaceForm.querySelector('.form__field_type_place-link');
-const addButtonPlace = document.querySelector('.profile__add-button');
-const pleaceCloseButton = document.querySelector('.pop-up__add-pleace-close');
-const popUpImageOverlay = document.querySelector('.pop-up__image-container');
-const closeBottunImageContainer = popUpImageOverlay.querySelector('.pop-up__image-container-close-button');
+const popUpPlaceContainer = document.querySelector('.pop-up__add-place-container');
+const placeForm = document.querySelector('.form-add-place');
+const fieldPlaceName = placeForm.querySelector('.form__field_type_place-name');
+const fieldPlaceLink = placeForm.querySelector('.form__field_type_place-link');
+// Находим Кнопку добавления карточки 
+const buttonAddPlace = document.querySelector('.profile__add-button');
+const pleaceCloseButton = popUpPlaceContainer.querySelector('.form__close-button');
+const popUpImageOverlay = document.querySelector('.pop-up-overlay');
+const buttonCloseImageContainer = popUpImageOverlay.querySelector('.pop-up__close-button');
 // Находим шаблон 
 const placeTemplate = document.querySelector('#place-template').content;
 //место куда будет вставляться шаблон
@@ -55,6 +53,8 @@ const initialCards = [
     }
   ];
 
+/* ------------ Блок Функций ------------ */
+
 /*Функция для вставки карточек из массива*/
 function createCardPlace (name, link) {
   //// клонируем содержимое тега template
@@ -77,8 +77,7 @@ function createCardPlace (name, link) {
   });
 
   placeElement.querySelector('.place__image').addEventListener('click', function(evt){
-    popUpOpenClose();
-    popUpContainerVisible(popUpImageOverlay);
+    openClosePopUp(popUpImageOverlay);
     document.querySelector('.pop-up__image').src = evt.target.src;
     document.querySelector('.pop-up__text-image').textContent = evt.target.alt;
     document.querySelector('.pop-up__image').alt = evt.target.alt;
@@ -89,23 +88,20 @@ function createCardPlace (name, link) {
 
 // Функция создание карточки
 function renderCard(card, container) {
-    container.prepend(card);
+  container.prepend(card);
 }
+
 // Функция открытия и закрытия popUp
-function popUpOpenClose() {
-  popUp.classList.toggle('pop-up_opened');
+function openClosePopUp(container) {
+  container.classList.toggle('pop-up_opened');
 }
-// Функция видимости для контейнеров
-function popUpContainerVisible(container) {
-  container.classList.toggle('pop-up__container_visible');
-}
+
 // Функция открытия формы для редактирования профиля
-function popUpEditProfileContainerOpen() {
+function openEditProfileContainer() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;   
 
-  popUpOpenClose();
-  popUpContainerVisible(editProfileContainer);
+  openClosePopUp(popUpContainerEditProfile);
 }
 
 // Функция редактирования профиля
@@ -115,44 +111,41 @@ function formSubmitHandler (evt) {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
 
-  popUpOpenClose();
-  popUpContainerVisible(editProfileContainer);
+  openClosePopUp(popUpContainerEditProfile);
 }
 
  // Функция для добавления новой карточки пользователем
-function submitCardForm (evt){
+ function submitCardForm (evt){
   evt.preventDefault();
-  createCardPlace(fieldPlaceName.value, fieldPlaceLink.value);
   renderCard(createCardPlace(fieldPlaceName.value, fieldPlaceLink.value), gallery);
-  popUpOpenClose();
-  popUpContainerVisible(addPlaceContainer);
+  openClosePopUp(popUpPlaceContainer);
 }
 
 //Функция для вставки шаблонов при загрузке страницы 
 initialCards.forEach(function(item){
-  createCardPlace(item.name, item.link);
   renderCard(createCardPlace(item.name, item.link),gallery);
 }); 
 
-addButtonPlace.addEventListener('click', function(){
-  popUpOpenClose();
-  popUpContainerVisible(addPlaceContainer);
+/* ------------ Конец блока функций ------------ */
+
+
+buttonAddPlace.addEventListener('click', function(){
+  openClosePopUp(popUpPlaceContainer);
   fieldPlaceName.value = '';
   fieldPlaceLink.value = '';
 });
 
-closeBottunImageContainer.addEventListener('click', function() {
-  popUpOpenClose();
-  popUpContainerVisible(popUpImageOverlay);
+buttonCloseImageContainer.addEventListener('click', function() {
+  openClosePopUp(popUpImageOverlay);
 });
-addPlaceForm.addEventListener('submit', submitCardForm);
-formElement.addEventListener('submit', formSubmitHandler);
-buttonEdit.addEventListener('click',popUpEditProfileContainerOpen);
+
+placeForm.addEventListener('submit', submitCardForm);
+formProfileElement.addEventListener('submit', formSubmitHandler);
+buttonEdit.addEventListener('click',openEditProfileContainer);
+
 buttonEditClose.addEventListener('click', function(){
-  popUpOpenClose();
-  popUpContainerVisible(editProfileContainer);
+  openClosePopUp(popUpContainerEditProfile);
 });
 pleaceCloseButton.addEventListener('click', function(){
-  popUpOpenClose();
-  popUpContainerVisible(addPlaceContainer);
+  openClosePopUp(popUpPlaceContainer);
 });
