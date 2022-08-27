@@ -19,7 +19,7 @@ const fieldPlaceLink = placeForm.querySelector('.form__field_type_place-link');
 // Находим Кнопку добавления карточки 
 const buttonAddPlace = document.querySelector('.profile__add-button');
 const pleaceCloseButton = popUpPlaceContainer.querySelector('.form__close-button');
-const popUpImageOverlay = document.querySelector('.pop-up-overlay');
+const popUpImageOverlay = document.querySelector('.pop-up__overlay');
 const buttonCloseImageContainer = popUpImageOverlay.querySelector('.pop-up__close-button');
 // Находим шаблон 
 const placeTemplate = document.querySelector('#place-template').content;
