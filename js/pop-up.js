@@ -1,21 +1,27 @@
-// Находим форму в DOM
-const formProfileElement = document.querySelector('.form-edit-profile');
+// Форма добавления карточки и её поля
+const placeForm = document.forms.formAddPlace;
+const fieldPlaceName = placeForm.elements.placeName;
+const fieldPlaceLink = placeForm.elements.placeLink;
+
+//Форма редактирования профиля и её поля
+const formProfileElement = document.forms.formEdit;
+const nameInput = formProfileElement.elements.profileName;
+const jobInput =  formProfileElement.elements.profileJob;
+
 // Находим overlay pop-up в DOM
 const popUp = document.querySelector('.pop-up'); 
 // Находим кнопки открытия и закрытия pop-up в DOM
 const buttonEdit = document.querySelector('.profile__edit-button');
 const popUpContainerEditProfile = document.querySelector('.pop-up-container-edit-profile');
 const buttonEditClose = popUpContainerEditProfile.querySelector('.form__close-button');
-// Находим поля формы в DOM
-const nameInput = formProfileElement.querySelector('.form__field_type_name');
-const jobInput =  formProfileElement.querySelector('.form__field_type_job');
+
 // Находим поля Профиля в DOM
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 const popUpPlaceContainer = document.querySelector('.pop-up-add-place-container');
-const placeForm = document.querySelector('.form-add-place');
-const fieldPlaceName = placeForm.querySelector('.form__field_type_place-name');
-const fieldPlaceLink = placeForm.querySelector('.form__field_type_place-link');
+
+
+
 // Находим Кнопку добавления карточки 
 const buttonAddPlace = document.querySelector('.profile__add-button');
 const pleaceCloseButton = popUpPlaceContainer.querySelector('.form__close-button');
@@ -102,11 +108,13 @@ function openEditProfileContainer() {
   jobInput.value = profileJob.textContent;   
 
   openClosePopUp(popUpContainerEditProfile);
-}
+  stateSubmitButton(formProfileElement);
+  isValidFilds(formProfileElement);
+  }
 
-// Функция редактирования профиля
-function formSubmitHandler (evt) {
-  evt.preventDefault(); 
+// Функция принятия изменений в фоме редактирования профиля
+function submitHandlerForm () {
+ // evt.preventDefault(); 
 
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
@@ -126,13 +134,26 @@ initialCards.forEach(function(item){
   renderCard(createCardPlace(item.name, item.link),gallery);
 }); 
 
+// Функция закрытия popUP при клике на overlay
+function closeoverlay(){
+  const popUpList = Array.from(document.querySelectorAll('.pop-up'));
+
+  popUpList.forEach((popUpElement) => {
+    popUpElement.addEventListener('click', function(evt){
+      if(evt.target.classList.contains('pop-up_opened')){
+        popUpElement.classList.remove('pop-up_opened');
+      }
+    });
+  })
+}
+
 /* ------------ Конец блока функций ------------ */
 
 
 buttonAddPlace.addEventListener('click', function(){
+  placeForm.reset();
   openClosePopUp(popUpPlaceContainer);
-  fieldPlaceName.value = '';
-  fieldPlaceLink.value = '';
+  stateSubmitButton(placeForm);
 });
 
 buttonCloseImageContainer.addEventListener('click', function() {
@@ -140,7 +161,7 @@ buttonCloseImageContainer.addEventListener('click', function() {
 });
 
 placeForm.addEventListener('submit', submitCardForm);
-formProfileElement.addEventListener('submit', formSubmitHandler);
+formProfileElement.addEventListener('submit', submitHandlerForm);
 buttonEdit.addEventListener('click',openEditProfileContainer);
 
 buttonEditClose.addEventListener('click', function(){
@@ -149,3 +170,18 @@ buttonEditClose.addEventListener('click', function(){
 pleaceCloseButton.addEventListener('click', function(){
   openClosePopUp(popUpPlaceContainer);
 });
+
+//  закрытие popUp через кнопку ESC
+document.addEventListener('keydown', function(evt){
+  const popUpList = Array.from(document.querySelectorAll('.pop-up'));
+
+  popUpList.forEach((popUpElement) => {
+    if(popUpElement.classList.contains('pop-up_opened')){
+      if(evt.key === 'Escape'){
+        popUpElement.classList.remove('pop-up_opened');
+      }
+    }
+  })
+});
+
+closeoverlay();
