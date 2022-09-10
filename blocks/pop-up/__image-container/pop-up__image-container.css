@@ -1,8 +1,3 @@
 .pop-up__image-container {
-    display: block;
-    height: 75vh;
-    max-height: 540px;
-    max-width: 816px;
-    width: 75vw;
     position: relative;
 }

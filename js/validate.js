@@ -1,82 +1,91 @@
-
-// Показать сообщение ошибки валидации
-const showInputError = (formElement, inputElement, errorMessage) => {
-
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`); 
-
-  inputElement.classList.add('form__field_type_error'); 
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('form__field_type_active');
+const enableValidationSetting = {
+  formSelector: '.form',
+  inputSelector: '.form__field',
+  submitButtonSelector: '.form__submit-button',
+  popupErrorSelector: '.form__text-error',
+  inactiveButtonClass: 'form__submit-button_disabled',
+  inputErrorClass: 'form__field_type_error',
+  errorClass: 'form__field_type_active'
 };
 
-// Скрыть сообщение ошибки валидации
-const hideInputError = (formElement, inputElement) => {
+
+
+
+// Показать сообщение ошибки валидации +
+const showInputError = (formElement, inputElement, settings, errorMessage) => {
 
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`); 
 
-  inputElement.classList.remove('form__input_type_error'); 
-  errorElement.classList.remove('form__field_type_active');
+  inputElement.classList.add(settings.inputErrorClass); 
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(settings.errorClass);
+};
+
+// Скрыть сообщение ошибки валидации +
+const hideInputError = (formElement, inputElement, settings) => {
+
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`); 
+
+  inputElement.classList.remove(settings.inputErrorClass); 
+  errorElement.classList.remove(settings.errorClass);
   errorElement.textContent ='';
   };
 
-// Валидация поля
-  const checkInputValidity = (formElement, inputElement) => {
+// Валидация поля +
+  const checkInputValidity = (formElement, inputElement, settings) => {
     if(!inputElement.validity.valid){
-      showInputError(formElement, inputElement, inputElement.validationMessage);
+      showInputError(formElement, inputElement, settings, inputElement.validationMessage);
     }
     else{
-      hideInputError(formElement, inputElement);
+      hideInputError(formElement, inputElement, settings);
     }
   };
 
-  // Функция выбора всех полей (внутри формы) и их валидация
-  function setEventListeners (formElement){
-    const inputList = Array.from(formElement.querySelectorAll('.form__field'));
+  // Функция выбора всех полей (внутри формы) и их валидация +
+  function setEventListeners (formElement, settings){
+    const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
     
     inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
+      checkInputValidity(formElement, inputElement, settings);
     });
   }); 
 }
 
-//Функция валидации полей при открытии формы
-function isValidFilds(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.form__field'));
+//Функция валидации полей при открытии формы +
+function isValidFilds(formElement, settings) {
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
   inputList.forEach((inputElement) => {
-    checkInputValidity(formElement, inputElement);
+    checkInputValidity(formElement, inputElement, settings);
   });
 }
 
 
-//Функция блокировки кнопки отправки
-function stateSubmitButton (formElement){
-  const submitBtn = formElement.querySelector('.form__submit-button');
+//Функция блокировки кнопки отправки +
+function stateSubmitButton (formElement, settings) {
+  const submitBtn = formElement.querySelector(settings.submitButtonSelector);
 
   if(!formElement.checkValidity()){
-    submitBtn.classList.add('form__submit-button_disabled');
+    submitBtn.classList.add(settings.inactiveButtonClass);
     submitBtn.setAttribute('disabled', true);
   }
   else{
-    submitBtn.classList.remove('form__submit-button_disabled');
+    submitBtn.classList.remove(settings.inactiveButtonClass);
     submitBtn.removeAttribute('disabled');
   }
 }
 
-// Функция выбора всех Форм и их валидация
-function enableValidation(){
-  const formList = Array.from(document.querySelectorAll('.form'));
-  
+// Функция выбора всех Форм и их валидация +
+function enableValidation(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
 formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
   formElement.addEventListener('input', (evt) => {
     evt.preventDefault();
-    stateSubmitButton(formElement);
+    stateSubmitButton(formElement, settings);
   });
-  setEventListeners(formElement);
+  setEventListeners(formElement, settings);
 });
 }
 
-enableValidation();
+enableValidation(enableValidationSetting);
+
