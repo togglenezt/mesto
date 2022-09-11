@@ -9,9 +9,7 @@ const enableValidationSetting = {
 };
 
 
-
-
-// Показать сообщение ошибки валидации +
+// Показать сообщение ошибки валидации 
 const showInputError = (formElement, inputElement, settings, errorMessage) => {
 
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`); 
@@ -20,8 +18,7 @@ const showInputError = (formElement, inputElement, settings, errorMessage) => {
   errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
 };
-
-// Скрыть сообщение ошибки валидации +
+// Скрыть сообщение ошибки валидации 
 const hideInputError = (formElement, inputElement, settings) => {
 
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`); 
@@ -30,8 +27,7 @@ const hideInputError = (formElement, inputElement, settings) => {
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent ='';
   };
-
-// Валидация поля +
+// Валидация поля 
   const checkInputValidity = (formElement, inputElement, settings) => {
     if(!inputElement.validity.valid){
       showInputError(formElement, inputElement, settings, inputElement.validationMessage);
@@ -40,8 +36,7 @@ const hideInputError = (formElement, inputElement, settings) => {
       hideInputError(formElement, inputElement, settings);
     }
   };
-
-  // Функция выбора всех полей (внутри формы) и их валидация +
+  // Функция выбора всех полей (внутри формы) и их валидация 
   function setEventListeners (formElement, settings){
     const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
     
@@ -52,7 +47,7 @@ const hideInputError = (formElement, inputElement, settings) => {
   }); 
 }
 
-//Функция валидации полей при открытии формы +
+//Функция на отоброжение ошибки не заполненного поля при открытии формы 
 function isValidFilds(formElement, settings) {
   const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
   inputList.forEach((inputElement) => {
@@ -60,11 +55,8 @@ function isValidFilds(formElement, settings) {
   });
 }
 
-
-//Функция блокировки кнопки отправки +
-function stateSubmitButton (formElement, settings) {
-  const submitBtn = formElement.querySelector(settings.submitButtonSelector);
-
+//Функция блокировки кнопки отправки 
+function stateSubmitButton (formElement, settings, submitBtn) {
   if(!formElement.checkValidity()){
     submitBtn.classList.add(settings.inactiveButtonClass);
     submitBtn.setAttribute('disabled', true);
@@ -74,14 +66,15 @@ function stateSubmitButton (formElement, settings) {
     submitBtn.removeAttribute('disabled');
   }
 }
-
-// Функция выбора всех Форм и их валидация +
+// Функция выбора всех Форм и их валидация 
 function enableValidation(settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
 formList.forEach((formElement) => {
+  const submitBtn = formElement.querySelector(settings.submitButtonSelector);
+
   formElement.addEventListener('input', (evt) => {
     evt.preventDefault();
-    stateSubmitButton(formElement, settings);
+    stateSubmitButton(formElement, settings, submitBtn);
   });
   setEventListeners(formElement, settings);
 });

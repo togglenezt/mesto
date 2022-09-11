@@ -5,7 +5,7 @@
     gap: 30px;
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width:725px) {
     .profile__container {
         flex-direction: column;
         justify-content: center;

@@ -40,6 +40,10 @@ function createCardPlace (name, link) {
   const placeElement = placeTemplate.querySelector('.place').cloneNode(true);
   const placeImage = placeElement.querySelector('.place__image');
   const placeTitle = placeElement.querySelector('.place__title');
+
+  const popUpImageContainer = document.querySelector('.pop-up__image-container');
+  const popUpImage = popUpImageContainer.querySelector('.pop-up__image');
+  const popUpTextImage = popUpImageContainer.querySelector('.pop-up__text-image');
   
   placeImage.src = link;
   placeImage.alt = name;
@@ -54,11 +58,11 @@ function createCardPlace (name, link) {
     placeElement.remove();
   });
 
-  placeElement.querySelector('.place__image').addEventListener('click', function(evt){
-    openClosePopUp(popUpImageOverlay);
-    document.querySelector('.pop-up__image').src = link;
-    document.querySelector('.pop-up__text-image').textContent = name;
-    document.querySelector('.pop-up__image').alt = name;
+  placeElement.querySelector('.place__image').addEventListener('click', function(){
+    openPopUp(popUpImageOverlay);
+    popUpImage.src = link;
+    popUpTextImage.textContent = name;
+    popUpImage.alt = name;
   });
 
   return placeElement;
@@ -71,10 +75,12 @@ function renderCard(card, container) {
 // Функция открытия popUp
 function openPopUp (popUp) {
   popUp.classList.add('pop-up_opened');
+  document.addEventListener('keydown',closeByEsc);
 }
 //Функция закрытия popUp
 function closePopUp (popUp){
   popUp.classList.remove('pop-up_opened');
+  document.removeEventListener('keydown',closeByEsc)
 }
 //Функция закрытия popUp при нажатии ESC
 function closeByEsc(evt) {
@@ -83,22 +89,15 @@ function closeByEsc(evt) {
     closePopUp(openedPopup); 
   }
 }
-
-// Функция открытия и закрытия popUp
-function openClosePopUp(container) {
-  container.classList.toggle('pop-up_opened');
-}
-
 // Функция открытия формы для редактирования профиля
 function openEditProfileContainer() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;   
 
   openPopUp(popUpContainerEditProfile);
- stateSubmitButton(formProfileElement, enableValidationSetting);
+  stateSubmitButton(formProfileElement, enableValidationSetting, formProfileElement.querySelector('.form__submit-button'));
   isValidFilds(formProfileElement, enableValidationSetting);
   }
-
 // Функция принятия изменений в форме редактирования профиля
 function submitHandlerForm (evt) {
  evt.preventDefault(); 
@@ -108,19 +107,16 @@ function submitHandlerForm (evt) {
 
   closePopUp(popUpContainerEditProfile);
 }
-
  // Функция для добавления новой карточки пользователем
  function submitCardForm (evt){
   evt.preventDefault();
   renderCard(createCardPlace(fieldPlaceName.value, fieldPlaceLink.value), gallery);
   closePopUp(popUpPlaceContainer);
 }
-
 //Функция для вставки шаблонов при загрузке страницы 
 initialCards.forEach(function(item){
   renderCard(createCardPlace(item.name, item.link),gallery);
 }); 
-
 // Функция закрытия popUP при клике на overlay
 function closePopUpByOverlay(){
   const popUpList = Array.from(document.querySelectorAll('.pop-up'));
@@ -141,7 +137,7 @@ buttonAddPlace.addEventListener('click', function(){
   placeForm.reset();
   
   openPopUp(popUpPlaceContainer);
-  stateSubmitButton(placeForm, enableValidationSetting);
+  stateSubmitButton(placeForm, enableValidationSetting, placeForm.querySelector('.form__submit-button'));
 });
 
 buttonCloseImageContainer.addEventListener('click', function() {
@@ -158,5 +154,5 @@ buttonEditClose.addEventListener('click', function(){
 pleaceCloseButton.addEventListener('click', function(){
   closePopUp(popUpPlaceContainer);
 });
-document.addEventListener('keydown',closeByEsc);
+
 closePopUpByOverlay();
