@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="pages/index.css">
+    <link rel="stylesheet" href="./pages/index.css">
     <title lang="en">Mesto</title>
 </head>
 <body class="page">
@@ -38,7 +38,7 @@
             <input type="text" placeholder="О себе" id="job-input" class="form__field form__field_type_job" name="profileJob" maxlength="200" minlength="2" required>
             <span class="form__text-error job-input-error"></span>
             <button class="form__submit-button"  type="submit">Сохранить</button>
-            <button class="form__close-button" type="button"></button>
+            <button class="form__close-button pop-up__close-button" type="button"></button>
         </form>
     </div>
     <div class="pop-up pop-up-add-place-container">
@@ -49,7 +49,7 @@
             <input type="url" placeholder="Ссылка на картинку" id="place-link-input" class="form__field form__field_type_place-link" name="placeLink" required>
             <span class="form__text-error place-link-input-error"></span>
             <button class="form__submit-button" type="submit">Создать</button>
-            <button class="form__close-button" type="button"></button>
+            <button class="form__close-button pop-up__close-button" type="button"></button>
         </form>
     </div>
     <div class="pop-up pop-up-overlay pop-up_opacity">
@@ -69,6 +69,6 @@
             <button type="button" class="place__delite-button"></button>
         </article>
     </template>
-    <script type="module" src="js/index.js"></script>
+    <script type='module' src="./js/index.js"></script>
 </body>
 </html>

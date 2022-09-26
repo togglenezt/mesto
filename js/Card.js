@@ -1,85 +1,74 @@
+const popUpOverlay = document.querySelector('.pop-up-overlay');
+const popUpImageContainer = document.querySelector('.pop-up__image-container');
+const popUpImage = popUpImageContainer.querySelector('.pop-up__image');
+const popUpTextImage = popUpImageContainer.querySelector('.pop-up__text-image');
+const gallery = document.querySelector('.gallery');
+
+
 export class Card {
-    constructor(data) {
+    constructor(data, template, popUp) {
         this._title = data.name;
         this._link = data.link;
-        this._popUpImageContainer = document.querySelector('.pop-up__image-container');
-        this._popUpImage = this._popUpImageContainer.querySelector('.pop-up__image');
-        this._popUpTextImage = this._popUpImageContainer.querySelector('.pop-up__text-image');
+        this._template = template;
+        this._popUp = popUp;
+
+        this._gallery = gallery;
+        this._popUpOverlay = popUpOverlay;
+        this._popUpImageContainer = popUpImageContainer
+        this._popUpImage = popUpImage;
+        this._popUpTextImage = popUpTextImage;
     }
     
     //Получение шаблона
     _getTemplate() {
-        const cardElement = document
-        .querySelector('#place-template')
-        .content
-        .querySelector('.place')
-        .cloneNode(true);
-
-        return cardElement;
+        return this._template.cloneNode(true).content;
     }
     
     //Создание карточки
-    generateCard() {
+    _generateCard() {
         this._element = this._getTemplate();
-        this._setEventListeners();
+        this._placeImage =  this._element.querySelector('.place__image');
 
-        this._element.querySelector('.place__image').src = this._link;
-        this._element.querySelector('.place__image').alt = this._title;
+        this._placeImage.src = this._link;
+        this._placeImage.alt = this._title;
         this._element.querySelector('.place__title').textContent = this._title;
 
+        this._setEventListeners();
         return this._element;
     } 
-    
-    //открытие модального окна с картинкой
-    _handleOpenPopup() {
-        this._popUpImage.src = this._link;
-        this._popUpImage.alt = this._title;
-        this._popUpTextImage.textContent = this._title;
-        openPopUp(popUpImageOverlay);
+
+    //Медот отметки like
+    _toggleLike(evt) {
+        evt.target.classList.toggle('place__like_click_active');
     }
-    
-    //закрытие модального окна с картинкой
-    _handleClosePopup() {
-        this._popUpImage.src = '';
-        this._popUpImage.alt = '';
-        this._popUpTextImage.textContent = '';
-        closePopUp(popUpImageOverlay);
+
+    //Медот удалиния карточки
+    _deleteCard(evt) {
+        evt.target.closest('.place').remove();
+    }
+
+    //открытие модального окна с картинкой
+    _handleOpenPopup(evt) {
+        this._popUp(this._popUpOverlay);
+        this._popUpImage.src = evt.target.src;
+        this._popUpImage.alt = evt.target.alt;
+        this._popUpTextImage.textContent = evt.target.alt;
     }
 
     //Сбор обработчиков
     _setEventListeners() {
 
-        this._element.querySelector('.place__image').addEventListener('click', () => {
-            this._handleOpenPopup();
-        });
-
-        buttonCloseImageContainer.addEventListener('click', () => {
-            this._handleClosePopup();
-        });
+        //Открытие модального окна с картинкой
+        this._element.querySelector('.place__image').addEventListener('click', this._handleOpenPopup.bind(this));
 
         //удаление карточки
-        this._element.querySelector('.place__delite-button').addEventListener('click', () => {
-            this._element.remove();
-        });
+        this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard);
 
         // Отменка like
-        this._element.querySelector('.place__like').addEventListener('click', (evt) => {
-            evt.target.classList.toggle('place__like_click_active');
-        });
-    }
-}
-
-//Класс для карточки пользователя(добовление карточки)
-class UserCard extends Card {
-    constructor(name, link) {
-        super(name, link)
-        this._title = name;
-        this._link = link;
+        this._element.querySelector('.place__like').addEventListener('click', this._toggleLike);
     }
 
-    //Создание карточки
-    generateCard() {
-        //Ссылается на родительский метод
-        return super.generateCard();  
+    renderCard() {
+        this._gallery.prepend(this._generateCard());
     }
 }

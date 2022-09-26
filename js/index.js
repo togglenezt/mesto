@@ -1,10 +1,10 @@
-import {Card} from './Card';
-import {initialCards} from './cards';
-import {FormValidator} from './FormValidator';
-import {enableValidationSetting} from './validate';
+import {Card} from './Card.js';
+import {initialCards, userData} from './cards.js';
+import {FormValidator} from './FormValidator.js';
+import {enableValidationSetting} from './validate.js';
 
-
-
+const placeTemplate = document.querySelector('#place-template');
+/*-------------------------------------------------------------------*/
 // Форма добавления карточки и её поля
 const placeForm = document.forms.formAddPlace;
 const fieldPlaceName = placeForm.elements.placeName;
@@ -34,33 +34,28 @@ const pleaceCloseButton = popUpPlaceContainer.querySelector('.form__close-button
 const popUpImageOverlay = document.querySelector('.pop-up-overlay');
 const buttonCloseImageContainer = popUpImageOverlay.querySelector('.pop-up__close-button');
 
-//место куда будет вставляться шаблон
-const gallery = document.querySelector('.gallery');
+
 /* ------------ Блок Функций ------------ */
 
 
-// Функция отрисовки карточки в DOM +
-function renderCard(card, container) {
-  container.prepend(card);
-}
-// Функция открытия popUp +
+// Функция открытия popUp 
 function openPopUp (popUp) {
   popUp.classList.add('pop-up_opened');
   document.addEventListener('keydown',closeByEsc);
 }
-//Функция закрытия popUp +
+//Функция закрытия popUp 
 function closePopUp (popUp){
   popUp.classList.remove('pop-up_opened'); 
   document.removeEventListener('keydown',closeByEsc)
 }
-//Функция закрытия popUp при нажатии ESC +
+//Функция закрытия popUp при нажатии ESC 
 function closeByEsc(evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.pop-up_opened');
     closePopUp(openedPopup); 
   }
 }
-// Функция открытия формы для редактирования профиля +
+// Функция открытия формы для редактирования профиля 
 function openEditProfileContainer() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;   
@@ -68,9 +63,9 @@ function openEditProfileContainer() {
   openPopUp(popUpContainerEditProfile);
   const formValidator = new FormValidator(enableValidationSetting, formProfileElement);
   formValidator.enableValidation();
-  formValidator.isValidFilds(formProfileElement);
+  formValidator.resetValidation(formProfileElement);
 }
-// Функция принятия изменений в форме редактирования профиля +
+// Функция принятия изменений в форме редактирования профиля 
 function submitHandlerForm (evt) {
   evt.preventDefault(); 
 
@@ -82,10 +77,10 @@ function submitHandlerForm (evt) {
 // Функция для добавления новой карточки пользователем
 function submitCardForm(evt) {
   evt.preventDefault();
-
-  const card = new UserCard(fieldPlaceName.value, fieldPlaceLink.value);
-  const cardElement = card.generateCard();
-  renderCard(cardElement, gallery);
+  
+  userData.name = fieldPlaceName.value;
+  userData.link = fieldPlaceLink.value;
+  const card = new Card(userData, placeTemplate, openPopUp).renderCard();
   closePopUp(popUpPlaceContainer);
 }
 
@@ -103,13 +98,13 @@ function closePopUpByOverlay(){
   })
 }
 
+
 // Обходим массив с данными карточек
 initialCards.forEach((item) => {
-  const card = new Card(item);
-  const cardElement = card.generateCard();
+  const card = new Card(item, placeTemplate, openPopUp);
+  card.renderCard();
 
   // Добавляем в DOM
-  renderCard(cardElement, gallery);
 });
 
 /* ------------ Конец блока функций ------------ */
@@ -121,6 +116,7 @@ buttonAddPlace.addEventListener('click', function(){
   openPopUp(popUpPlaceContainer);
   const formValidator = new FormValidator(enableValidationSetting, placeForm);
   formValidator.enableValidation();
+  formValidator.resetValidation(popUpPlaceContainer);
 });
 
 buttonCloseImageContainer.addEventListener('click', function() {
