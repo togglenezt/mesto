@@ -1,12 +1,12 @@
 export class FormValidator {
-    constructor(settings, formElement) {
-        this._formSelector = settings.formSelector;
-        this._inputSelector = settings.inputSelector;
-        this._submitButtonSelector = settings.submitButtonSelector;
-        this._popupErrorSelector = settings.popupErrorSelector;
-        this._inactiveButtonClass = settings.inactiveButtonClass;
-        this._inputErrorClass = settings.inputErrorClass;
-        this._errorClass = settings.errorClass;
+    constructor(config, formElement) {
+        this._formSelector = config.formSelector;
+        this._inputSelector = config.inputSelector;
+        this._submitButtonSelector = config.submitButtonSelector;
+        this._popupErrorSelector = config.popupErrorSelector;
+        this._inactiveButtonClass = config.inactiveButtonClass;
+        this._inputErrorClass = config.inputErrorClass;
+        this._errorClass = config.errorClass;
         this._formElement = formElement;
     }
     
@@ -37,29 +37,6 @@ export class FormValidator {
             this._hideInputError(formElement, inputElement);
           }
     }
-    
-    // выбор всех полей (внутри формы) и их валидация 
-    _setEventListeners(formElement) {
-        this._inputList =  Array.from(formElement.querySelectorAll(this._inputSelector));
-        this._submitBtn = formElement.querySelector(this._submitButtonSelector);
-
-        this._inputList.forEach((inputElement) => {
-            inputElement.addEventListener('input', () => {
-                this._checkInputValidity(formElement, inputElement);
-              });    
-        });
-    }
-
-    //отоброжение ошибки не заполненного поля при открытии формы 
-    resetValidation(formElement) {
-        this._inputList =  Array.from(formElement.querySelectorAll(this._inputSelector));
-
-        this._inputList.forEach((inputElement) =>{
-            this._hideInputError(formElement, inputElement);
-        });
-        
-        this._toggleButtonState(this._formElement, this._submitBtn);
-    }
 
     //блокировка кнопки отправки
     _toggleButtonState(formElement, submitBtn) {
@@ -73,12 +50,31 @@ export class FormValidator {
           }
     }
 
+    // выбор всех полей (внутри формы) и их валидация 
+    _setEventListeners(formElement) {
+        this._inputList =  Array.from(formElement.querySelectorAll(this._inputSelector));
+        this._submitBtn = formElement.querySelector(this._submitButtonSelector);
+        this._toggleButtonState(this._formElement, this._submitBtn);
+
+        this._inputList.forEach((inputElement) => {
+            inputElement.addEventListener('input', () => {
+                this._checkInputValidity(formElement, inputElement);
+                this._toggleButtonState(this._formElement, this._submitBtn);
+              });    
+        });
+    }
+
+     
+    //отоброжение ошибки не заполненного поля при открытии формы 
+    resetValidation() {
+        this._inputList.forEach((inputElement) =>{
+            this._hideInputError(this._formElement, inputElement);
+        });
+        this._toggleButtonState(this._formElement, this._submitBtn);
+    }
+
     //выбор всех Форм и их валидация 
     enableValidation() {
-            this._formElement.addEventListener('input', (evt) => {
-                evt.preventDefault();
-                this._toggleButtonState(this._formElement, this._submitBtn);
-              });
               this._setEventListeners(this._formElement);
     }
 

@@ -2,17 +2,15 @@ const popUpOverlay = document.querySelector('.pop-up-overlay');
 const popUpImageContainer = document.querySelector('.pop-up__image-container');
 const popUpImage = popUpImageContainer.querySelector('.pop-up__image');
 const popUpTextImage = popUpImageContainer.querySelector('.pop-up__text-image');
-const gallery = document.querySelector('.gallery');
 
 
 export class Card {
-    constructor(data, template, popUp) {
+    constructor(data, template, openPopUp) {
         this._title = data.name;
         this._link = data.link;
         this._template = template;
-        this._popUp = popUp;
+        this._openPopUp = openPopUp;
 
-        this._gallery = gallery;
         this._popUpOverlay = popUpOverlay;
         this._popUpImageContainer = popUpImageContainer
         this._popUpImage = popUpImage;
@@ -25,7 +23,7 @@ export class Card {
     }
     
     //Создание карточки
-    _generateCard() {
+    generateCard() {
         this._element = this._getTemplate();
         this._placeImage =  this._element.querySelector('.place__image');
 
@@ -49,7 +47,7 @@ export class Card {
 
     //открытие модального окна с картинкой
     _handleOpenPopup(evt) {
-        this._popUp(this._popUpOverlay);
+        this._openPopUp(this._popUpOverlay);
         this._popUpImage.src = evt.target.src;
         this._popUpImage.alt = evt.target.alt;
         this._popUpTextImage.textContent = evt.target.alt;
@@ -59,16 +57,12 @@ export class Card {
     _setEventListeners() {
 
         //Открытие модального окна с картинкой
-        this._element.querySelector('.place__image').addEventListener('click', this._handleOpenPopup.bind(this));
+        this._placeImage.addEventListener('click', this._handleOpenPopup.bind(this));
 
         //удаление карточки
         this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard);
 
         // Отменка like
         this._element.querySelector('.place__like').addEventListener('click', this._toggleLike);
-    }
-
-    renderCard() {
-        this._gallery.prepend(this._generateCard());
     }
 }

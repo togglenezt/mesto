@@ -1,4 +1,4 @@
-export const enableValidationSetting = {
+export const config = {
   formSelector: '.form',
   inputSelector: '.form__field',
   submitButtonSelector: '.form__submit-button',
