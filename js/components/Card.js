@@ -1,20 +1,11 @@
-const popUpOverlay = document.querySelector('.pop-up-overlay');
-const popUpImageContainer = document.querySelector('.pop-up__image-container');
-const popUpImage = popUpImageContainer.querySelector('.pop-up__image');
-const popUpTextImage = popUpImageContainer.querySelector('.pop-up__text-image');
 
-
-export class Card {
-    constructor(data, template, openPopUp) {
-        this._title = data.name;
-        this._link = data.link;
+export default class Card {
+    constructor(data, template,  handleCardClick) {
+        this._cardData = data;
+        this._title = this._cardData.name;
+        this._link = this._cardData.link;
         this._template = template;
-        this._openPopUp = openPopUp;
-
-        this._popUpOverlay = popUpOverlay;
-        this._popUpImageContainer = popUpImageContainer
-        this._popUpImage = popUpImage;
-        this._popUpTextImage = popUpTextImage;
+        this._handleCardClick = handleCardClick;
     }
     
     //Получение шаблона
@@ -44,20 +35,11 @@ export class Card {
     _deleteCard(evt) {
         evt.target.closest('.place').remove();
     }
-
-    //открытие модального окна с картинкой
-    _handleOpenPopup(evt) {
-        this._openPopUp(this._popUpOverlay);
-        this._popUpImage.src = evt.target.src;
-        this._popUpImage.alt = evt.target.alt;
-        this._popUpTextImage.textContent = evt.target.alt;
-    }
-
     //Сбор обработчиков
     _setEventListeners() {
 
         //Открытие модального окна с картинкой
-        this._placeImage.addEventListener('click', this._handleOpenPopup.bind(this));
+        this._placeImage.addEventListener('click', () => this._handleCardClick(this._cardData));
 
         //удаление карточки
         this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard);

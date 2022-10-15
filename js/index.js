@@ -1,35 +1,29 @@
-import {Card} from './Card.js';
-import {initialCards, userData} from './cards.js';
-import {FormValidator} from './FormValidator.js';
-import {config} from './validate.js';
+import Card from './components/Card.js';
+import FormValidator from './components/FormValidator.js';
+import Section from './components/Section.js';
 
-const placeTemplate = document.querySelector('#place-template');
-const gallery = document.querySelector('.gallery');
-const popUps = document.querySelectorAll('.pop-up');
-const formValidators = {};
-/*-------------------------------------------------------------------*/
-// Форма добавления карточки и её поля
-const placeForm = document.forms.formAddPlace;
-const fieldPlaceName = placeForm.elements.placeName;
-const fieldPlaceLink = placeForm.elements.placeLink;
+import PopupWithImage from './components/PopupWithImage.js';
+import PopupWithForm from './components/PopupWithForm.js';
+import UserInfo from './components/UserInfo.js';
 
-//Форма редактирования профиля и её поля
-const formProfileElement = document.forms.formEdit;
-const nameInput = formProfileElement.elements.profileName;
-const jobInput =  formProfileElement.elements.profileJob;
-
-// Находим кнопки открытия и закрытия pop-up в DOM
-const buttonEdit = document.querySelector('.profile__edit-button');
-const popUpContainerEditProfile = document.querySelector('.pop-up-container-edit-profile');
-
-// Находим поля Профиля в DOM
-const profileName = document.querySelector('.profile__title');
-const profileJob = document.querySelector('.profile__subtitle');
-const popUpPlaceContainer = document.querySelector('.pop-up-add-place-container');
-
-// Находим Кнопку добавления карточки 
-const buttonAddPlace = document.querySelector('.profile__add-button');
-
+import {initialCards, userData} from './Data/cards.js';
+import {config} from './Data/config.js';
+import {
+        nameInput,
+        jobInput,
+        fieldPlaceName,
+        fieldPlaceLink,
+        profileName,
+        profileJob,
+        popUpPlaceContainer,
+        buttonEdit,
+        popUpContainerEditProfile,
+        buttonAddPlace,
+        placeTemplate,
+        gallery,
+        containerSelector,
+        popUpOverlay,
+        formValidators} from './utils/constants.js';
 
 /* ------------ Блок Функций ------------ */
 
@@ -42,8 +36,7 @@ const enableValidation = (config) => {
     const formName = formElement.getAttribute('name');
 
    // вот тут в объект записываем под именем формы
-    formValidators[formName] = validator;
-    console.log(formValidators);
+   formValidators[formName] = validator;
    validator.enableValidation();
   });
 };
@@ -55,39 +48,11 @@ function renderCard(item, container) {
   container.prepend(item);
 }
 
-// Функция открытия popUp 
-function openPopUp (popUp) {
-  popUp.classList.add('pop-up_opened');
-  document.addEventListener('keydown',closeByEsc);
-}
-//Функция закрытия popUp 
-function closePopUp (popUp){
-  popUp.classList.remove('pop-up_opened'); 
-  document.removeEventListener('keydown',closeByEsc)
-}
-//Функция закрытия popUp при нажатии ESC 
-function closeByEsc(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.pop-up_opened');
-    closePopUp(openedPopup); 
-  }
-}
-// Функция открытия формы для редактирования профиля 
-function openEditProfileContainer() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;   
 
-  openPopUp(popUpContainerEditProfile);
-  formValidators['formEdit'].resetValidation();
-}
-// Функция принятия изменений в форме редактирования профиля 
-function handleProfileFormSubmit (evt) { 
-  evt.preventDefault(); 
 
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopUp(popUpContainerEditProfile);
-}
+/* ---- Удалить -------*/
+
+/*-----------------------*/
 // Функция для добавления новой карточки пользователем
 function submitCardForm(evt) {
   evt.preventDefault();
@@ -101,36 +66,90 @@ function submitCardForm(evt) {
   closePopUp(popUpPlaceContainer);
 }
 
-// Обходим массив с данными карточек
-initialCards.forEach((item) => {
-  const card = new Card(item, placeTemplate, openPopUp);
 
-  // Добавляем в DOM
-  renderCard(card.generateCard(), gallery);
-});
-
-//Закрытие модальных окон
-popUps.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('pop-up_opened')) {
-        closePopUp(popup);
-    }
-    if (evt.target.classList.contains('pop-up__close-button')) {
-      closePopUp(popup);
-    }
-  });
-});
 
 /* ------------ Конец блока функций ------------ */
 
 
+
+
+
+/*-----------------------  ПР8  -----------------------------*/
+const handleCardClick = function (item) {
+  popupImage.open(item.name, item.link);
+}
+
+//Вставка карточек при загрузке страницы
+const cardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card (item, placeTemplate, handleCardClick);
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+  }
+}, containerSelector); 
+
+cardList.renderItems();
+
+const popupImage = new PopupWithImage(popUpOverlay);
+const userInfo = new UserInfo({name: profileName, job: profileJob});
+
+ 
+const popupEdit = new PopupWithForm(popUpContainerEditProfile, 
+  {
+    handleFormSubmit: (item) => {
+      userInfo.setUserInfo(item);
+      popupEdit.close();
+    }
+  });
+
+const popupAddForm = new PopupWithForm(popUpPlaceContainer, {handleFormSubmit: () => {
+  const newCardAdder = new Card( {name:fieldPlaceName.value, link:fieldPlaceLink.value}, placeTemplate, handleCardClick);
+  const cardElement = newCardAdder.generateCard();
+
+  cardList.addItem(cardElement);
+  popupAddForm.close();
+}})
+
+
+
+
+
+//Функция редактирования профиля
+const handleEditButton = function () {
+  const userData = userInfo.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.job;
+  formValidators['formEdit'].resetValidation();
+  popupEdit.open();
+}
+
+
+/*--------------------------------------------------------*/
+
+//Кнопка открытия формы редактирования профиля
+buttonEdit.addEventListener('click',handleEditButton);
+
+popupEdit.setEventListeners();
+popupImage.setEventListeners();
+popupAddForm.setEventListeners();
+
+
+
+
+
 buttonAddPlace.addEventListener('click', function(){
-  placeForm.reset();
-  openPopUp(popUpPlaceContainer);
+  popupAddForm.open();
   formValidators['formAddPlace'].resetValidation();
 });
 
-placeForm.addEventListener('submit', submitCardForm);
-formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-buttonEdit.addEventListener('click',openEditProfileContainer);
+
+
+
+
+
+
+
+
+
 
