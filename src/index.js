@@ -106,20 +106,20 @@ buttonAddPlace.addEventListener('click', function(){
 
 
 /*--- Webpack ---*/
-/*
-import '../pages/index.css';
 
-const addButon = new URL('../images/add-button.svg', import.meta.url);
-const closeIcon = new URL('../images/Close-Icon.svg', import.meta.url);
-const deliteButton = new URL('../images/delite-place.svg', import.meta.url);
-const likeButton = new URL('../images/like.svg', import.meta.url);
-const avatar = new URL('../images/profile__avatar.jpg', import.meta.url);
-const union = new URL('../images/Union.svg', import.meta.url);
-const vector = new URL('../images/Vector.svg', import.meta.url);
+import './pages/index.css';
+
+const addButon = new URL('./images/add-button.svg', import.meta.url);
+const closeIcon = new URL('./images/Close-Icon.svg', import.meta.url);
+const deliteButton = new URL('./images/delite-place.svg', import.meta.url);
+const likeButton = new URL('./images/like.svg', import.meta.url);
+const avatar = new URL('./images/profile__avatar.jpg', import.meta.url);
+const union = new URL('./images/Union.svg', import.meta.url);
+const vector = new URL('./images/Vector.svg', import.meta.url);
 
 const whoIsTheGoat = [
   // меняем исходные пути на переменные
-  { name: 'addButon', image: addButon },
+  { name: 'addButon', link: addButon },
   { name: 'closeIcon', link: closeIcon },
   { name: 'deliteButton', link: deliteButton },
   { name: 'likeButton', link: likeButton },
@@ -127,7 +127,7 @@ const whoIsTheGoat = [
   { name: 'union', link: union },
   { name: 'vector', link: vector },
 ];
-*/
+
 /*--- end Webpack ---*/
 
 
