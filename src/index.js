@@ -41,7 +41,6 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
-
 /* ------------ Конец блока функций ------------ */
 
 /*-----------------------  ПР8  -----------------------------*/
@@ -103,6 +102,8 @@ buttonAddPlace.addEventListener('click', function(){
   popupAddForm.open();
   formValidators['formAddPlace'].resetValidation();
 });
+
+
 
 /*--- Webpack ---*/
 /*
