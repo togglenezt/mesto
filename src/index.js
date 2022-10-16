@@ -6,7 +6,7 @@ import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import UserInfo from './components/UserInfo.js';
 
-import {initialCards, userData} from './Data/cards.js';
+import {initialCards} from './Data/cards.js';
 import {config} from './Data/config.js';
 import {
         nameInput,
@@ -20,7 +20,6 @@ import {
         popUpContainerEditProfile,
         buttonAddPlace,
         placeTemplate,
-        gallery,
         containerSelector,
         popUpOverlay,
         formValidators} from './utils/constants.js';
@@ -43,36 +42,7 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 
-// Функция создание карточки
-function renderCard(item, container) {
-  container.prepend(item);
-}
-
-
-
-/* ---- Удалить -------*/
-
-/*-----------------------*/
-// Функция для добавления новой карточки пользователем
-function submitCardForm(evt) {
-  evt.preventDefault();
-  
-  userData.name = fieldPlaceName.value;
-  userData.link = fieldPlaceLink.value;
-  const card = new Card(userData, placeTemplate, openPopUp);
-  
-  // Добавляем в DOM
-  renderCard(card.generateCard(), gallery); 
-  closePopUp(popUpPlaceContainer);
-}
-
-
-
 /* ------------ Конец блока функций ------------ */
-
-
-
-
 
 /*-----------------------  ПР8  -----------------------------*/
 const handleCardClick = function (item) {
@@ -111,10 +81,6 @@ const popupAddForm = new PopupWithForm(popUpPlaceContainer, {handleFormSubmit: (
   popupAddForm.close();
 }})
 
-
-
-
-
 //Функция редактирования профиля
 const handleEditButton = function () {
   const userData = userInfo.getUserInfo();
@@ -123,7 +89,6 @@ const handleEditButton = function () {
   formValidators['formEdit'].resetValidation();
   popupEdit.open();
 }
-
 
 /*--------------------------------------------------------*/
 
@@ -134,16 +99,35 @@ popupEdit.setEventListeners();
 popupImage.setEventListeners();
 popupAddForm.setEventListeners();
 
-
-
-
-
 buttonAddPlace.addEventListener('click', function(){
   popupAddForm.open();
   formValidators['formAddPlace'].resetValidation();
 });
 
+/*--- Webpack ---*/
+/*
+import '../pages/index.css';
 
+const addButon = new URL('../images/add-button.svg', import.meta.url);
+const closeIcon = new URL('../images/Close-Icon.svg', import.meta.url);
+const deliteButton = new URL('../images/delite-place.svg', import.meta.url);
+const likeButton = new URL('../images/like.svg', import.meta.url);
+const avatar = new URL('../images/profile__avatar.jpg', import.meta.url);
+const union = new URL('../images/Union.svg', import.meta.url);
+const vector = new URL('../images/Vector.svg', import.meta.url);
+
+const whoIsTheGoat = [
+  // меняем исходные пути на переменные
+  { name: 'addButon', image: addButon },
+  { name: 'closeIcon', link: closeIcon },
+  { name: 'deliteButton', link: deliteButton },
+  { name: 'likeButton', link: likeButton },
+  { name: 'avatar', link: avatar },
+  { name: 'union', link: union },
+  { name: 'vector', link: vector },
+];
+*/
+/*--- end Webpack ---*/
 
 
 
