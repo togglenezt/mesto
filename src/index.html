@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title lang="en">Mesto</title>
+</head>
+<body class="page">
+    <header class="header">
+        <a href="#" class="header__logo"></a>
+    </header>
+    <main class="content">
+        <section class="profile" aria-label="Профиль">
+            <div class="profile__container">
+                <img src="images/profile__avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
+                <div class="profile__text">
+                    <div class="profile__edit-container">
+                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <button class="profile__edit-button" type="button"></button>
+                    </div>
+                    <p class="profile__subtitle">Исследователь океана</p>
+                </div>
+            </div>
+            <button class="profile__add-button" type="button"></button>
+        </section>
+        <section class="gallery" aria-label="Фото галлерея"></section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">© 2020 Mesto Russia</p>
+    </footer>
+    <div class="pop-up pop-up-container-edit-profile">
+        <form action="#" class="form form-edit-profile" name="formEdit">
+            <h3 class="form__title">Редактировать профиль</h3>
+            <input type="text" placeholder="Имя" id="name-input" class="form__field form__field_type_name" name="profileName" maxlength="40" minlength="2" required>
+            <span class="form__text-error name-input-error"></span>
+            <input type="text" placeholder="О себе" id="job-input" class="form__field form__field_type_job" name="profileJob" maxlength="200" minlength="2" required>
+            <span class="form__text-error job-input-error"></span>
+            <button class="form__submit-button"  type="submit">Сохранить</button>
+            <button class="form__close-button pop-up__close-button" type="button"></button>
+        </form>
+    </div>
+    <div class="pop-up pop-up-add-place-container">
+        <form action="#" class="form form-add-place" name="formAddPlace">
+            <h3 class="form__title">Новое место</h3>
+            <input type="text" placeholder="Название" id="place-name-input" class="form__field form__field_type_place-name" name="placeName" maxlength="30" minlength="2" required>
+            <span class="form__text-error place-name-input-error"></span>
+            <input type="url" placeholder="Ссылка на картинку" id="place-link-input" class="form__field form__field_type_place-link" name="placeLink" required>
+            <span class="form__text-error place-link-input-error"></span>
+            <button class="form__submit-button" type="submit">Создать</button>
+            <button class="form__close-button pop-up__close-button" type="button"></button>
+        </form>
+    </div>
+    <div class="pop-up pop-up-overlay pop-up_opacity">
+        <div class="pop-up__image-container">
+            <img src="#" alt="#" class="pop-up__image">
+            <p class="pop-up__text-image"></p>
+            <button class="pop-up__close-button" type="button"></button>
+        </div>
+    </div>
+    <template id="place-template">
+        <article class="place">
+            <img src="#" alt="место" class="place__image">
+            <div class="place__text">
+                <h2 class="place__title"></h2>
+                <button class="place__like" type="button"></button>
+            </div>
+            <button type="button" class="place__delite-button"></button>
+        </article>
+    </template>
+    <script type='module' src="./index.js"></script>
+</body>
+</html>
