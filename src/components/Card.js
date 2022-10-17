@@ -17,7 +17,8 @@ export default class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._placeImage =  this._element.querySelector('.place__image');
-
+        this._deleteButton = this._element.querySelector('.place__delite-button');
+        this._likeButton = this._element.querySelector('.place__like');
         this._placeImage.src = this._link;
         this._placeImage.alt = this._title;
         this._element.querySelector('.place__title').textContent = this._title;
@@ -27,24 +28,22 @@ export default class Card {
     } 
 
     //Медот отметки like
-    _toggleLike(evt) {
-        evt.target.classList.toggle('place__like_click_active');
+    _toggleLike() {
+        this._likeButton.classList.toggle('place__like_click_active');
     }
 
     //Медот удалиния карточки
-    _deleteCard(evt) {
-        evt.target.closest('.place').remove();
+    _deleteCard() {
+        this._deleteButton.closest('.place').remove();
     }
+    
     //Сбор обработчиков
     _setEventListeners() {
-
         //Открытие модального окна с картинкой
         this._placeImage.addEventListener('click', () => this._handleCardClick(this._cardData));
-
         //удаление карточки
-        this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard);
-
+        this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard.bind(this));
         // Отменка like
-        this._element.querySelector('.place__like').addEventListener('click', this._toggleLike);
+        this._element.querySelector('.place__like').addEventListener('click', this._toggleLike.bind(this));
     }
 }

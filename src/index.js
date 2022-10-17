@@ -11,8 +11,6 @@ import {config} from './Data/config.js';
 import {
         nameInput,
         jobInput,
-        fieldPlaceName,
-        fieldPlaceLink,
         profileName,
         profileJob,
         popUpPlaceContainer,
@@ -20,8 +18,8 @@ import {
         popUpContainerEditProfile,
         buttonAddPlace,
         placeTemplate,
-        containerSelector,
-        popUpOverlay,
+        cardsConatinerSelector,
+        popupImageOverlay,
         formValidators} from './utils/constants.js';
 
 /* ------------ Блок Функций ------------ */
@@ -44,44 +42,42 @@ enableValidation(config);
 /* ------------ Конец блока функций ------------ */
 
 /*-----------------------  ПР8  -----------------------------*/
-const handleCardClick = function (item) {
-  popupImage.open(item.name, item.link);
+
+const createCard = function (inputValues) {
+  return new Card({
+    name: inputValues.name,
+    link: inputValues.link,
+  }, placeTemplate, (cardData) => {
+    popupImage.open({ name: cardData.name, link: cardData.link });
+  })
+    .generateCard();
 }
 
 //Вставка карточек при загрузке страницы
-const cardList = new Section({
+const cardsSection = new Section({
   items: initialCards,
-  renderer: (item) => {
-    const card = new Card (item, placeTemplate, handleCardClick);
-    const cardElement = card.generateCard();
-    cardList.addItem(cardElement);
-  }
-}, containerSelector); 
+  renderer: (item) => cardsSection.addItem(createCard(item))
+}, cardsConatinerSelector); 
 
-cardList.renderItems();
+cardsSection.renderItems();
 
-const popupImage = new PopupWithImage(popUpOverlay);
-const userInfo = new UserInfo({name: profileName, job: profileJob});
+const popupImage = new PopupWithImage(popupImageOverlay);
+const userInfo = new UserInfo(profileName, profileJob);
 
- 
-const popupEdit = new PopupWithForm(popUpContainerEditProfile, 
-  {
-    handleFormSubmit: (item) => {
-      userInfo.setUserInfo(item);
-      popupEdit.close();
-    }
-  });
 
-const popupAddForm = new PopupWithForm(popUpPlaceContainer, {handleFormSubmit: () => {
-  const newCardAdder = new Card( {name:fieldPlaceName.value, link:fieldPlaceLink.value}, placeTemplate, handleCardClick);
-  const cardElement = newCardAdder.generateCard();
+  const popupEdit = new PopupWithForm(popUpContainerEditProfile, (inputValues => {
+    userInfo.setUserInfo(inputValues);
+    popupEdit.close();
+  }));
 
-  cardList.addItem(cardElement);
-  popupAddForm.close();
-}})
+
+  const popupAddForm = new PopupWithForm(popUpPlaceContainer, (inputValues => {
+    cardsSection.addItem(createCard(inputValues));
+    popupAddForm.close();
+  }));
 
 //Функция редактирования профиля
-const handleEditButton = function () {
+const handleEditButtonClick = function () {
   const userData = userInfo.getUserInfo();
   nameInput.value = userData.name;
   jobInput.value = userData.job;
@@ -92,7 +88,7 @@ const handleEditButton = function () {
 /*--------------------------------------------------------*/
 
 //Кнопка открытия формы редактирования профиля
-buttonEdit.addEventListener('click',handleEditButton);
+buttonEdit.addEventListener('click',handleEditButtonClick);
 
 popupEdit.setEventListeners();
 popupImage.setEventListeners();
@@ -108,25 +104,6 @@ buttonAddPlace.addEventListener('click', function(){
 /*--- Webpack ---*/
 
 import './pages/index.css';
-
-const addButon = new URL('./images/add-button.svg', import.meta.url);
-const closeIcon = new URL('./images/Close-Icon.svg', import.meta.url);
-const deliteButton = new URL('./images/delite-place.svg', import.meta.url);
-const likeButton = new URL('./images/like.svg', import.meta.url);
-const avatar = new URL('./images/profile__avatar.jpg', import.meta.url);
-const union = new URL('./images/Union.svg', import.meta.url);
-const vector = new URL('./images/Vector.svg', import.meta.url);
-
-const whoIsTheGoat = [
-  // меняем исходные пути на переменные
-  { name: 'addButon', link: addButon },
-  { name: 'closeIcon', link: closeIcon },
-  { name: 'deliteButton', link: deliteButton },
-  { name: 'likeButton', link: likeButton },
-  { name: 'avatar', link: avatar },
-  { name: 'union', link: union },
-  { name: 'vector', link: vector },
-];
 
 /*--- end Webpack ---*/
 
