@@ -30,21 +30,21 @@ export default class FormValidator {
     
     // Валидация поля +
     _checkInputValidity(inputElement) {
-        if(!inputElement.validity.valid){
+        if(!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
           }
-          else{
+          else {
             this._hideInputError(inputElement);
           }
     }
 
     //блокировка кнопки отправки
     _toggleButtonState(submitBtn) {
-        if(!this._formElement.checkValidity()){
+        if(!this._formElement.checkValidity()) {
             submitBtn.classList.add(this._inactiveButtonClass);
             submitBtn.disabled = true;
           }
-          else{
+          else {
             submitBtn.classList.remove(this._inactiveButtonClass);
             submitBtn.disabled = false;
           }
@@ -76,5 +76,4 @@ export default class FormValidator {
     enableValidation() {
               this._setEventListeners(this._formElement);
     }
-
  }
