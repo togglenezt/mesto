@@ -8,6 +8,7 @@ export default class FormValidator {
         this._inputErrorClass = config.inputErrorClass;
         this._errorClass = config.errorClass;
         this._formElement = formElement;
+        this._submitBtn = formElement.querySelector(this._submitButtonSelector);
     }
     
     // Показать сообщение ошибки валидации +  
@@ -32,34 +33,33 @@ export default class FormValidator {
     _checkInputValidity(inputElement) {
         if(!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
-          }
-          else {
+        }
+        else {
             this._hideInputError(inputElement);
-          }
+        }
     }
 
     //блокировка кнопки отправки
-    _toggleButtonState(submitBtn) {
+    _toggleButtonState() {
         if(!this._formElement.checkValidity()) {
-            submitBtn.classList.add(this._inactiveButtonClass);
-            submitBtn.disabled = true;
+            this._submitBtn.classList.add(this._inactiveButtonClass);
+            this._submitBtn.disabled = true;
           }
           else {
-            submitBtn.classList.remove(this._inactiveButtonClass);
-            submitBtn.disabled = false;
+            this._submitBtn.classList.remove(this._inactiveButtonClass);
+            this._submitBtn.disabled = false;
           }
     }
 
     // выбор всех полей (внутри формы) и их валидация 
     _setEventListeners(formElement) {
         this._inputList =  Array.from(formElement.querySelectorAll(this._inputSelector));
-        this._submitBtn = formElement.querySelector(this._submitButtonSelector);
-        this._toggleButtonState(this._submitBtn);
+        this._toggleButtonState();
 
         this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
                 this._checkInputValidity(inputElement);
-                this._toggleButtonState(this._submitBtn);
+                this._toggleButtonState();
               });    
         });
     }
@@ -69,7 +69,7 @@ export default class FormValidator {
         this._inputList.forEach((inputElement) =>{
             this._hideInputError(inputElement);
         });
-        this._toggleButtonState(this._submitBtn);
+        this._toggleButtonState();
     }
 
     //выбор всех Форм и их валидация 
