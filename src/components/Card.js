@@ -42,8 +42,8 @@ export default class Card {
         //Открытие модального окна с картинкой
         this._placeImage.addEventListener('click', () => this._handleCardClick(this._cardData));
         //удаление карточки
-        this._element.querySelector('.place__delite-button').addEventListener('click', this._deleteCard.bind(this));
+        this._deleteButton.addEventListener('click', this._deleteCard.bind(this));
         // Отменка like
-        this._element.querySelector('.place__like').addEventListener('click', this._toggleLike.bind(this));
+        this._likeButton.addEventListener('click', this._toggleLike.bind(this));
     }
 }

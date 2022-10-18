@@ -11,8 +11,8 @@ export default class FormValidator {
     }
     
     // Показать сообщение ошибки валидации +  
-    _showInputError(formElement, inputElement, errorMessage) {
-        this._errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    _showInputError(inputElement, errorMessage) {
+        this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
 
         inputElement.classList.add(this._inputErrorClass); 
         this._errorElement.textContent = errorMessage;
@@ -20,8 +20,8 @@ export default class FormValidator {
     }
 
     // Скрыть сообщение ошибки валидации +
-    _hideInputError(formElement, inputElement) {
-        this._errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    _hideInputError(inputElement) {
+        this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
         
         inputElement.classList.remove(this._inputErrorClass); 
         this._errorElement.classList.remove(this._errorClass);
@@ -29,24 +29,24 @@ export default class FormValidator {
     }
     
     // Валидация поля +
-    _checkInputValidity(formElement, inputElement) {
+    _checkInputValidity(inputElement) {
         if(!inputElement.validity.valid){
-            this._showInputError(formElement, inputElement, inputElement.validationMessage);
+            this._showInputError(inputElement, inputElement.validationMessage);
           }
           else{
-            this._hideInputError(formElement, inputElement);
+            this._hideInputError(inputElement);
           }
     }
 
     //блокировка кнопки отправки
-    _toggleButtonState(formElement, submitBtn) {
-        if(!formElement.checkValidity()){
+    _toggleButtonState(submitBtn) {
+        if(!this._formElement.checkValidity()){
             submitBtn.classList.add(this._inactiveButtonClass);
-            submitBtn.setAttribute('disabled', true);
+            submitBtn.disabled = true;
           }
           else{
             submitBtn.classList.remove(this._inactiveButtonClass);
-            submitBtn.removeAttribute('disabled');
+            submitBtn.disabled = false;
           }
     }
 
@@ -54,23 +54,22 @@ export default class FormValidator {
     _setEventListeners(formElement) {
         this._inputList =  Array.from(formElement.querySelectorAll(this._inputSelector));
         this._submitBtn = formElement.querySelector(this._submitButtonSelector);
-        this._toggleButtonState(this._formElement, this._submitBtn);
+        this._toggleButtonState(this._submitBtn);
 
         this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
-                this._checkInputValidity(formElement, inputElement);
-                this._toggleButtonState(this._formElement, this._submitBtn);
+                this._checkInputValidity(inputElement);
+                this._toggleButtonState(this._submitBtn);
               });    
         });
     }
 
-     
     //отоброжение ошибки не заполненного поля при открытии формы 
     resetValidation() {
         this._inputList.forEach((inputElement) =>{
-            this._hideInputError(this._formElement, inputElement);
+            this._hideInputError(inputElement);
         });
-        this._toggleButtonState(this._formElement, this._submitBtn);
+        this._toggleButtonState(this._submitBtn);
     }
 
     //выбор всех Форм и их валидация 

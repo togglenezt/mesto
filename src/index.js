@@ -43,10 +43,10 @@ enableValidation(config);
 
 /*-----------------------  ПР8  -----------------------------*/
 
-const createCard = function (inputValues) {
+const createCard = function (cardData) {
   return new Card({
-    name: inputValues.name,
-    link: inputValues.link,
+    name: cardData.name,
+    link: cardData.link,
   }, placeTemplate, (cardData) => {
     popupImage.open({ name: cardData.name, link: cardData.link });
   })
@@ -64,17 +64,15 @@ cardsSection.renderItems();
 const popupImage = new PopupWithImage(popupImageOverlay);
 const userInfo = new UserInfo(profileName, profileJob);
 
+const popupEdit = new PopupWithForm(popUpContainerEditProfile, (inputValues => {
+  userInfo.setUserInfo(inputValues);
+  popupEdit.close();
+}));
 
-  const popupEdit = new PopupWithForm(popUpContainerEditProfile, (inputValues => {
-    userInfo.setUserInfo(inputValues);
-    popupEdit.close();
-  }));
-
-
-  const popupAddForm = new PopupWithForm(popUpPlaceContainer, (inputValues => {
-    cardsSection.addItem(createCard(inputValues));
-    popupAddForm.close();
-  }));
+const popupAddForm = new PopupWithForm(popUpPlaceContainer, (inputValues => {
+  cardsSection.addItem(createCard(inputValues));
+  popupAddForm.close();
+}));
 
 //Функция редактирования профиля
 const handleEditButtonClick = function () {
