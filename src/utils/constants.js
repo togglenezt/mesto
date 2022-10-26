@@ -1,6 +1,6 @@
 export const popupImageOverlay = document.querySelector('.pop-up-overlay');
 export const popUpImageContainer = document.querySelector('.pop-up__image-container');
-export const popUpAvatarContainer = document.querySelector('.popup_type_avatar'); // Форма редактирования аватарки пользователя
+export const popUpAvatarContainer = document.querySelector('.pop-up-avatar'); // Форма редактирования аватарки пользователя
 export const buttonAvatarEdit = document.querySelector('.profile__avatar-edit');
 export const formProfileElement = document.forms.formEdit; //Форма редактирования профиля
 export const nameInput = formProfileElement.elements.name; //Поле имени формы редактирования профиля
@@ -20,4 +20,4 @@ export const cardsConatinerSelector = '.gallery';
 export const formValidators = {};
 export const serverUrl = 'https://mesto.nomoreparties.co/v1/cohort-52'; // Адрес сервера
 export const serverToken = '44789594-7e2d-4206-b282-20acc9a01a01';//токен авторизации
-export const popupFormDelete = document.querySelector('.popup_type_place-delete');
+export const popupFormDelete = document.querySelector('.pop-up-place-delete'); // Форма подтверждения удаления карточки
