@@ -87,7 +87,6 @@ api.getCards()
   console.log(`Ошибка.....: ${err}`);
 })
 
-
 Promise.all([api.getUserInfo(), api.getCards()])
   .catch(err => console.log(`Ошибка.....: ${err}`))
 
@@ -184,10 +183,7 @@ function handleCardDelete(card) {
 }
 
 const popupCardDelete = new PopupWithDelete(popupFormDelete);
-
 /*---------*/
-
-
 
 //Кнопка открытия формы редактирования профиля
 buttonEdit.addEventListener('click',handleEditButtonClick);
