@@ -66,10 +66,8 @@ export default class Card {
         console.log(this._isLiked); */
     }
 
-    
     isLiked() {
-        return this._isLiked;
-        
+        return this._isLiked; 
     }
 
     //Медот удалиния карточки
