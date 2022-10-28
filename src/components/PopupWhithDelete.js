@@ -7,7 +7,7 @@ export default class PopupWithDelete extends Popup {
 
     open(data) {
         super.open();
-        this.setSubmitHandler = data;
+        this._setSubmitHandler = data;
     }
 
     setEventListeners() {
@@ -15,7 +15,7 @@ export default class PopupWithDelete extends Popup {
     
         this._popup.addEventListener('submit', (event) => {
             event.preventDefault();
-            this.setSubmitHandler();
+            this._setSubmitHandler();
         });
     }
 }

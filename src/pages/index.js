@@ -1,14 +1,14 @@
-import './pages/index.css'; // Webpack
+//import './pages/index.css'; // Webpack
 
-import Card from './components/Card.js';
-import FormValidator from './components/FormValidator.js';
-import Section from './components/Section.js';
-import Api from './components/Api.js';
-import PopupWithImage from './components/PopupWithImage.js';
-import PopupWithForm from './components/PopupWithForm.js';
-import PopupWithDelete from './components/PopupWhithDelete.js';
-import UserInfo from './components/UserInfo.js';
-import {config} from './Data/config.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import Api from '../components/Api.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithDelete from '../components/PopupWhithDelete.js';
+import UserInfo from '../components/UserInfo.js';
+import {config} from '../data/config.js';
 import {
         nameInput,
         serverUrl,
@@ -26,7 +26,7 @@ import {
         popupImageOverlay,
         popUpAvatarContainer,
         popupFormDelete,
-        formValidators} from './utils/constants.js';
+        formValidators} from '../utils/constants.js';
 
 /* ------------ Блок Функций ------------ */
 
@@ -75,8 +75,21 @@ api.getUserInfo()
   .then((user) => {
     userInfo.setUserInfo(user);
     userInfo.setUserAvatar(user.avatar);
-    renderCards();
   })
+  .catch(err => console.log(`Ошибка.....: ${err}`))
+ 
+//прогрузка карточек
+api.getCards()
+.then((data) => {
+  initialCardsAdder.renderItems(data);
+})
+.catch((err) => {
+  console.log(`Ошибка.....: ${err}`);
+})
+
+
+Promise.all([api.getUserInfo(), api.getCards()])
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 
 // Редактирование данных о пользователе
 const popupEdit = new PopupWithForm ({popup: popUpContainerEditProfile, handleFormSubmit: (item) => {
@@ -126,6 +139,19 @@ const initialCardsAdder = new Section({
   }
 }, cardsConatinerSelector);
 
+//лайк карточки
+function handleCardLike(card, data) {
+  const likePromise = card.isLiked() ? api.dislike(data._id) : api.like(data._id);
+
+  likePromise
+    .then((data) => {
+      card.setLike(data);
+    })
+    .catch((err) => {
+      console.log(`${err}`);
+  });
+}
+
 //создание карточки
 function createCard(item) {
   const newCard = new Card(item, placeTemplate, userInfo.userId, (item) => {
@@ -136,22 +162,11 @@ function createCard(item) {
   handleLikeCard: () => {
     handleCardLike(newCard, item);
   }
+  
 });
 
   const cardElement = newCard.generateCard();
-  newCard.setLike(item);
   initialCardsAdder.addItem(cardElement);
-}
-
-//прогрузка карточек
-function renderCards() {
-  api.getCards()
-  .then((data) => {
-    initialCardsAdder.renderItems(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
 }
 
 //удаление карточки
@@ -165,21 +180,7 @@ function handleCardDelete(card) {
       .catch((err) => {
         console.log(`${err}`);
       })
-    //console.log(card);
   })
-}
-
-//лайк карточки
-function handleCardLike(card, data) {
-  const likePromise = card.isLiked() ? api.dislike(data._id) : api.like(data._id);
-
-  likePromise
-    .then((data) => {
-      card.setLike(data);
-    })
-    .catch((err) => {
-      console.log(`${err}`);
-  });
 }
 
 const popupCardDelete = new PopupWithDelete(popupFormDelete);
