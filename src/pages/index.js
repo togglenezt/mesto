@@ -14,6 +14,7 @@ import {
         serverUrl,
         serverToken,
         jobInput,
+        gallery,
         profileName,
         profileJob,
         popUpPlaceContainer,
@@ -71,23 +72,22 @@ const api = new Api({
 const userInfo = new UserInfo(profileName, profileJob);
 const popupImage = new PopupWithImage(popupImageOverlay);
 
-api.getUserInfo()
-  .then((user) => {
-    userInfo.setUserInfo(user);
-    userInfo.setUserAvatar(user.avatar);
-  })
-  .catch(err => console.log(`Ошибка.....: ${err}`))
- 
-//прогрузка карточек
-api.getCards()
-.then((data) => {
-  initialCardsAdder.renderItems(data);
-})
-.catch((err) => {
-  console.log(`Ошибка.....: ${err}`);
-})
-
 Promise.all([api.getUserInfo(), api.getCards()])
+  .then(() => {
+    api.getUserInfo()
+      .then((user) => {
+        userInfo.setUserInfo(user);
+        userInfo.setUserAvatar(user.avatar);
+      })
+      .catch(err => console.log(`Ошибка.....: ${err}`))
+      api.getCards()
+      .then((data) => {
+        initialCardsAdder.renderItems(data);
+      })
+      .catch((err) => {
+        console.log(`Ошибка.....: ${err}`);
+      })
+  })
   .catch(err => console.log(`Ошибка.....: ${err}`))
 
 // Редактирование данных о пользователе
@@ -136,7 +136,7 @@ const initialCardsAdder = new Section({
   renderer: (item) => {
     createCard(item);
   }
-}, cardsConatinerSelector);
+});
 
 //лайк карточки
 function handleCardLike(card, data) {
@@ -149,6 +149,10 @@ function handleCardLike(card, data) {
     .catch((err) => {
       console.log(`${err}`);
   });
+}
+
+function addCard (card) {
+  gallery.prepend(card);
 }
 
 //создание карточки
@@ -165,7 +169,8 @@ function createCard(item) {
 });
 
   const cardElement = newCard.generateCard();
-  initialCardsAdder.addItem(cardElement);
+  addCard(cardElement);
+  
 }
 
 //удаление карточки

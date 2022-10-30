@@ -9,6 +9,7 @@ export default class Card {
         this._handleLikeCard = handleLikeCard;
         this._title = this._cardData.name;
         this._link = this._cardData.link; 
+        this._likes = this._cardData.likes;
     }
     
     //Получение шаблона
@@ -25,14 +26,13 @@ export default class Card {
         this._likeButton = this._element.querySelector('.place__like');
         this._placeTitle = this._element.querySelector('.place__title');
         this._likeCounter = this._element.querySelector('.place__like-counter');
-
-        this._likeCounter.textContent = this._cardData.likes.length;
         this._placeImage.src = this._link;
         this._placeImage.alt = this._title;
         this._placeTitle.textContent = this._title;
 
         this._setDeleteButton();
         this._setEventListeners();
+        this._updateLikeState();
         return this._element;
         
     } 
@@ -46,29 +46,23 @@ export default class Card {
 
     // Счетчик лайка
     setLike(data) {
-         this._isLiked = data.likes.filter((item) => {
-            return item._id == this._userId
-        }).length > 0;
-        this._likeCounter.textContent = data.likes.length;
-        
-        this._isLiked ? 
-        this._likeButton.classList.add('place__like_click_active'):
-        this._likeButton.classList.remove('place__like_click_active');
-        console.log(this._isLiked);  
-
-       /* this._isLiked = data.likes.some((item) => {
-            return item._id == this._userId
-        });
-        this._likeCounter.textContent = data.likes.length;
-        this._isLiked ? 
-        this._likeButton.classList.add('place__like_click_active'):
-        this._likeButton.classList.remove('place__like_click_active');
-        console.log(this._isLiked); */
+        this._likes = data.likes;
+        this._updateLikeState();
     }
 
     isLiked() {
-        return this._isLiked; 
+        return this._likes.some((item) => {
+            return item._id === this._userId;
+        });
     }
+
+    _updateLikeState() {
+        this._likeCounter.textContent = this._likes.length;
+    
+        this.isLiked()
+          ? this._likeButton.classList.add("place__like_click_active")
+          : this._likeButton.classList.remove("place__like_click_active");
+      } 
 
     //Медот удалиния карточки
     deleteCard() {
