@@ -73,20 +73,10 @@ const userInfo = new UserInfo(profileName, profileJob);
 const popupImage = new PopupWithImage(popupImageOverlay);
 
 Promise.all([api.getUserInfo(), api.getCards()])
-  .then(() => {
-    api.getUserInfo()
-      .then((user) => {
+  .then(([user, cards]) => {
         userInfo.setUserInfo(user);
         userInfo.setUserAvatar(user.avatar);
-      })
-      .catch(err => console.log(`Ошибка.....: ${err}`))
-      api.getCards()
-      .then((data) => {
-        initialCardsAdder.renderItems(data);
-      })
-      .catch((err) => {
-        console.log(`Ошибка.....: ${err}`);
-      })
+        initialCardsAdder.renderItems(cards);
   })
   .catch(err => console.log(`Ошибка.....: ${err}`))
 
@@ -124,6 +114,7 @@ const popupAddForm = new PopupWithForm({popup: popUpPlaceContainer, handleFormSu
     api.addCard(item)
       .then((res) => {
         createCard(res);
+        addCard(createCard(res));
         popupAddForm.close();
       })
       .catch((err) => {
@@ -135,8 +126,9 @@ const popupAddForm = new PopupWithForm({popup: popUpPlaceContainer, handleFormSu
 const initialCardsAdder = new Section({
   renderer: (item) => {
     createCard(item);
+    addCard(createCard(item));
   }
-});
+},cardsConatinerSelector);
 
 //лайк карточки
 function handleCardLike(card, data) {
@@ -152,25 +144,24 @@ function handleCardLike(card, data) {
 }
 
 function addCard (card) {
-  gallery.prepend(card);
+  initialCardsAdder.addItem(card);
 }
 
 //создание карточки
 function createCard(item) {
   const newCard = new Card(item, placeTemplate, userInfo.userId, (item) => {
     popupImage.open({ name: item.name, link: item.link });
-  }, {handleCardDelete: () => {
-    handleCardDelete(newCard);
-  },
-  handleLikeCard: () => {
-    handleCardLike(newCard, item);
+    }, {handleCardDelete: () => {
+      handleCardDelete(newCard);
+    },
+    handleLikeCard: () => {
+      handleCardLike(newCard, item);
+    }
   }
-  
-});
+  );
 
   const cardElement = newCard.generateCard();
-  addCard(cardElement);
-  
+  return cardElement;
 }
 
 //удаление карточки
